@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Fetch Api</title>
+		<style>
+			table,
+			th,
+			td {
+				border: 1px solid black;
+				border-collapse: collapse;
+			}
+			th,
+			td {
+				padding: 15px;
+				text-align: left;
+			}
+		</style>
+	</head>
+	<body>
+		<h1>Match Table</h1>
+		<div>
+			<table style="width: 100%;">
+				<thead>
+					<tr>
+						<th>League Name</th>
+						<th>Host Team</th>
+						<th>Guest Team</th>
+						<th>Match Time</th>
+					</tr>
+				</thead>
+				<tbody id="sub"></tbody>
+			</table>
+		</div>
+		<script>
+			fetch("http://api.football-data.org/v2/matches", {
+				method: "Get",
+				headers: {
+					"X-Auth-Token": "92c701c1255b431b8de28ac46810569e",
+				},
+			})
+				.then((res) => res.json())
+				.then((data) => {
+					console.log(data);
+					let output = " ";
+					data.matches.forEach((matches) => {
+						output += `<tr>
+			                     <td>${matches.competition.name}</td>
+			             <td>${matches.homeTeam.name}</td>
+			             <td>${matches.awayTeam.name}</td>
+			                      <td>${matches.season.startDate}</td></tr>
+			                  `;
+					});
+					document.getElementById("sub").innerHTML = output;
+				})
+				.catch((err) => console.log(err));
+		</script>
+	</body>
+</html>
